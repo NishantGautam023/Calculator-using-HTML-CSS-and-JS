@@ -1,11 +1,18 @@
-console.log(eval('2'+'3'));
+var button = document.getElementsByClassName('button');
+var display = document.getElementById('display');
+var operand1 = 0;
+var operand2 = null;
+var operator3 = null;
 
-// It evaluates the result, we need to pass the string it will do evalution for us.
-
-// we can pass varuable as well, and use eval to evaluate the expression as wellclear
-
-var operand1= 2;;
-var operand2 = 4
-var operator = "*";
-var result = eval(operand1 + " " + operator + " " + operand2)
-console.log(result);
+// Handling clicks on all the buttons.
+for (var i =0; i< button.length; i++ ) {
+    //  for every button we have to add a AudioListener, this is an array
+    button[i].addEventListener('click', function() {
+        // all the calculator logic is within this function
+        var value= this.getAttribute('data-value');
+        if (value == "+") {
+            operator = "+";
+            operand1 = parseFloat(display.textContent)
+        }
+    });
+} 
