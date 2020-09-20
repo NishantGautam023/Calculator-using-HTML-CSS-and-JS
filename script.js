@@ -1,22 +1,50 @@
-var button = document.getElementsByClassName('button');
-var display = document.getElementById('display');
+var buttons = document.getElementsByClassName("button");
+var display = document.getElementById("display");
+
+// display.textContent = 0;
 var operand1 = 0;
 var operand2 = null;
 var operator = null;
 
-// Handling clicks on all the buttons.
-for (var i =0; i< button.length; i++ ) {
-    //  for every button we have to add a AudioListener, this is an array
-    button[i].addEventListener('click', function() {
-        // all the calculator logic is within this function
-        var value= this.getAttribute('data-value');
-        if (value == "+") { // if an operator is clicked
-            operator = "+";
-            operand1 = parseFloat(display.textContent)
-        } else if(value == '=') {
-            operand2 = parseFloat(display.textContent);
-            // use eval to ge result
-            // show result on display
+function isOperator(value) {
+    return value == "+" || value == "-" || value == "*" || value == "/";
+}
+
+for (var i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener('click', function () {
+
+        var value = this.getAttribute('data-value');
+        var text = display.textContent.trim();
+
+        if (isOperator(value)) {
+            operator = value;
+            operand1 = parseFloat(text);
+            display.textContent = "";
+        } else if (value == "ac") {
+            display.textContent = "";
+        } else if (value == "sign") {
+            operand1 = parseFloat(text);
+            operand1 = -1 * operand1;
+            display.textContent = operand1;
+        } else if (value == ".") {
+            if (text.length && !text.includes('.')) {
+                display.textContent = text + '.';
+            }
+        } else if (value == "%") {
+            operand1 = parseFloat(text);
+            operand1 = operand1 / 100;
+            display.textContent = operand1
+        } else if (value == "=") {
+            operand2 = parseFloat(text);
+            var result = eval(operand1 + ' ' + operator + ' ' + operand2);
+            if (result) {
+                display.textContent = result;
+                operand1 = result;
+                operand2 = null;
+                operator = null;
+            }
+        } else {
+            display.textContent += value;
         }
     });
-} 
+}
